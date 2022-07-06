@@ -15,8 +15,8 @@
 ### Установка
 
 ```shell
-git clone https://github.com/waslost0/lolz_live_chat_telegram_bot
-cd lolz_live_chat_telegram_bot
+git clone https://github.com/waslost0/lolz_auto_distribution_content
+cd lolz_auto_distribution_content
 pip instal -r requirements.txt
 ```
 
@@ -26,12 +26,12 @@ pip instal -r requirements.txt
 
 ### API Token lolz.guru
 
-1) [API для разработчика](https://lolz.guru/account/api)
+1) [API для разработчика](https://zelenka.guru/account/api)
 2) `Add New Client`
 3) Заполняем данные
 4) `Сохранить`
 5) Копируем `API Key` и вставляем за место `CLIENT_ID` в ссылку
-6) https://lolz.guru/api/index.php?oauth/authorize&response_type=token&client_id=CLIENT_ID&scope=read+post
+6) https://zelenka.guru/api/index.php?oauth/authorize&response_type=token&client_id=CLIENT_ID&scope=read+post
 7) Переходим по ссылке, в адресной строке отобразится токен для доступа к аккаунту `lolz_api_key`
 
 ---
