@@ -15,7 +15,7 @@ from fake_useragent import UserAgent
 from loguru import logger
 from requests import RequestException
 
-# https://lolz.guru/api/index.php?oauth/authorize&response_type=token&client_id=CLIENT_ID&scope=read+post
+# https://zelenka.guru/api/index.php?oauth/authorize&response_type=token&client_id=CLIENT_ID&scope=read+post
 from utils import telegram_bot_send_text, DATA_JSON
 
 config = {
@@ -40,7 +40,7 @@ class LolzWorker:
         """
         self.ua = UserAgent(verify_ssl=False)
         self.session = requests.Session()
-        self.domain_name = 'lolz.guru'
+        self.domain_name = 'zelenka.guru'
         self.user_data = user_data
         self.session.headers['Authorization'] = 'Bearer ' + self.user_data.get("lolz_api_key")
         self.theme_url = user_data['theme_url']
@@ -84,7 +84,7 @@ class LolzWorker:
                 if self.is_telegram_debug_mode:
                     telegram_bot_send_text('Proxy set error', is_silent=False)
                 sys.exit('Proxy error')
-        self.session.post('https://lolz.guru/api/index.php?me')
+        self.session.post(f'https://{self.domain_name}/api/index.php?me')
 
     def __enter__(self):
         return self
@@ -168,7 +168,7 @@ class LolzWorker:
             'post_body': f'[USERS={users_to_reply[user]["poster_username"]}]@{users_to_reply[user]["poster_username"]}, {self.user_data["message"]}\n{string_message}[/USERS]'
         }
         try:
-            response = self.session.post('https://lolz.guru/api/index.php?posts', data=data).json()
+            response = self.session.post(f'https://{self.domain_name}/api/index.php?posts', data=data).json()
             logger.info(response)
         except (RequestException, json.decoder.JSONDecodeError) as e:
             logger.error(e)
@@ -314,7 +314,7 @@ class LolzWorker:
 
     def get_user_me(self) -> Union[dict, None]:
         try:
-            response = self.session.get('https://lolz.guru/api/index.php?/users/me').json()
+            response = self.session.get(f'https://{self.domain_name}/api/index.php?/users/me').json()
         except (RequestException, json.decoder.JSONDecodeError) as error:
             logger.error(error)
             return None
@@ -342,7 +342,7 @@ class LolzWorker:
     def get_user_likes(self, user_id) -> Union[int, None]:
         time.sleep(3)
         try:
-            response = self.session.get(f'https://lolz.guru/api/index.php?/users/{user_id}')
+            response = self.session.get(f'https://{self.domain_name}/api/index.php?/users/{user_id}')
             response = response.json()
             if 'user' in response:
                 like_count = response['user']['user_like_count']
