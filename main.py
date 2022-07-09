@@ -40,7 +40,7 @@ class LolzWorker:
         """
         self.ua = UserAgent(verify_ssl=False)
         self.session = requests.Session()
-        self.domain_name = 'zelenka.guru'
+        self.domain_name = 'lolz.guru'
         self.user_data = user_data
         self.session.headers['Authorization'] = 'Bearer ' + self.user_data.get("lolz_api_key")
         self.theme_url = user_data['theme_url']
