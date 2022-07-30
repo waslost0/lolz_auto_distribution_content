@@ -15,7 +15,8 @@ def load_data_from_file() -> dict:
                 data = {
                     "items_count": 1,
                     "theme_url": "https://lolz.guru/threads/ID",
-                    "message": "",
+                    "message": ":cutedog:",
+                    "answer_as_comment": True,
                     "minimum_user_likes": 20,
                     "timeout_to_send_acc_in_minutes": 500,
                     "sleep_time": 50,
@@ -27,8 +28,8 @@ def load_data_from_file() -> dict:
                         "error_mod": True,
                     },
                     "proxy": {
-                        "account_proxy": "",
-                        "proxy_type": "https"
+                        "account_proxy": [],
+                        "proxy_type": "http"
                     }
                 }
                 f.write(json.dumps(data, indent=4))
