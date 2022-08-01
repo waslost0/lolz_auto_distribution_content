@@ -21,6 +21,7 @@ def load_data_from_file() -> dict:
                     "timeout_to_send_acc_in_minutes": 500,
                     "sleep_time": 50,
                     "lolz_api_key": "",
+                    "lolz_api_url": "api.lolz.guru",
                     "telegram": {
                         "telegram_id": "",
                         "bot_token": "",
