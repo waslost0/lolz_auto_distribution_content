@@ -165,7 +165,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 del data['post_body']
                 del data['quote_post_id']
                 del data['thread_id']
-                data['comment_body'] = "Lorem Ipsum is simply dummy text of the"
+                data['comment_body'] = post_body_message
                 response = self.send_post_request(
                     path=f'posts/{users_to_reply[user]["post_id"]}/comments',
                     params=data
