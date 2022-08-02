@@ -18,7 +18,7 @@ def load_data_from_file() -> dict:
                     "message": ":cutedog:",
                     "answer_as_comment": True,
                     "minimum_user_likes": 20,
-                    "timeout_to_send_acc_in_minutes": 500,
+                    "user_timeout_to_send_acc_in_minutes": 500,
                     "sleep_time": 50,
                     "lolz_api_key": "",
                     "lolz_api_url": "api.lolz.guru",
