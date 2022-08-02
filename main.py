@@ -177,7 +177,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 telegram_bot_send_text(f'Отправил: {users_to_reply[user]["poster_username"]}')
             logger.info(response.dataJson)
         except (RequestException, json.decoder.JSONDecodeError) as e:
-            self.random_proxy()
+            #self.random_proxy()
             logger.error(e)
             [self.accounts_list.append(item) for item in accounts_send]
         else:
@@ -267,13 +267,13 @@ class LolzWorker(RequestApi, ApiResponseParser):
 
             return links.pages if links is not None and links.pages is not None else 1
         except Exception as error:
-            self.random_proxy()
+            #self.random_proxy()
             logger.error(error)
             return 1
 
     @logger.catch()
     def get_users_to_reply(self) -> dict:
-        self.random_proxy()
+        #self.random_proxy()
         users_to_reply = {}
         first_page = 1
         if int(self.last_page) > 1:
@@ -297,7 +297,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                     key='posts').data
 
             except Exception as error:
-                self.random_proxy()
+                #self.random_proxy()
                 logger.error(error)
                 return users_to_reply
 
@@ -347,7 +347,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 key='user').data
             return user
         except Exception as error:
-            self.random_proxy()
+            #self.random_proxy()
             logger.error(error)
             sys.exit()
 
@@ -364,7 +364,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 logger.debug(f'Get user likes count user_id:{user_id}| like_count:{like_count}')
                 return like_count
         except (RequestException, json.decoder.JSONDecodeError) as error:
-            self.random_proxy()
+            #self.random_proxy()
             logger.error(error)
         else:
             return None
