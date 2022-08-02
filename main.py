@@ -177,7 +177,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 telegram_bot_send_text(f'Отправил: {users_to_reply[user]["poster_username"]}')
             logger.info(response.dataJson)
         except (RequestException, json.decoder.JSONDecodeError) as e:
-            #self.random_proxy()
+            # self.random_proxy()
             logger.error(e)
             [self.accounts_list.append(item) for item in accounts_send]
         else:
@@ -196,6 +196,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
         """
         users_to_reply = []
         self.user = self.get_user_me()
+        logger.info(f"USER ID {self.user.user_id}")
         self.last_page = self.get_last_page()
 
         time_sleep = self.user_data.sleep_time
@@ -267,13 +268,13 @@ class LolzWorker(RequestApi, ApiResponseParser):
 
             return links.pages if links is not None and links.pages is not None else 1
         except Exception as error:
-            #self.random_proxy()
+            # self.random_proxy()
             logger.error(error)
             return 1
 
     @logger.catch()
     def get_users_to_reply(self) -> dict:
-        #self.random_proxy()
+        # self.random_proxy()
         users_to_reply = {}
         first_page = 1
         if int(self.last_page) > 1:
@@ -281,6 +282,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
 
         for i in range(first_page, int(self.last_page) + 1):
             try:
+                posts = []
                 data = {
                     "thread_id": self.user_data.thread_id,
                     "page": i
@@ -297,7 +299,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                     key='posts').data
 
             except Exception as error:
-                #self.random_proxy()
+                # self.random_proxy()
                 logger.error(error)
                 return users_to_reply
 
@@ -309,9 +311,9 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 if post.poster_user_id in self.replied_users:
                     if post.post_id in self.replied_users[post.poster_user_id].get('posts'):
                         continue
-
-                if not post.post_is_first_post and post.poster_user_id != self.user.user_id:
-                # if not post.post_is_first_post:
+                logger.info(f"POST poster_user_id ID {post.poster_user_id}")
+                if not post.post_is_first_post and int(post.poster_user_id) != int(self.user.user_id):
+                    # if not post.post_is_first_post:
                     if self.user_data.minimum_user_likes > 0:
                         user_likes = self.get_user_likes(post.poster_user_id)
 
@@ -347,7 +349,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 key='user').data
             return user
         except Exception as error:
-            #self.random_proxy()
+            # self.random_proxy()
             logger.error(error)
             sys.exit()
 
@@ -364,7 +366,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                 logger.debug(f'Get user likes count user_id:{user_id}| like_count:{like_count}')
                 return like_count
         except (RequestException, json.decoder.JSONDecodeError) as error:
-            #self.random_proxy()
+            # self.random_proxy()
             logger.error(error)
         else:
             return None
