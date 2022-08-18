@@ -39,9 +39,6 @@ class LolzWorker(RequestApi, ApiResponseParser):
     """
 
     def __init__(self, user_data):
-        """
-        Constructor.
-        """
         self.user_data: UserData = UserData.from_dict(user_data)
         super().__init__(
             lolz_api_token=self.user_data.lolz_api_key,
