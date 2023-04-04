@@ -20,7 +20,7 @@ from entities.links import Links
 from entities.post import Post
 from entities.user import User
 from entities.user_data import UserData
-from utils import telegram_bot_send_text, DATA_JSON
+from utils import telegram_bot_send_text, DATA_JSON,telegram_bot_send_doc
 
 config = {
     "handlers": [
@@ -151,7 +151,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
             account = self.accounts_list.pop()
             accounts_send.append(account)
             string_message += account + '\n'
-        post_body_message = f'[USERS={users_to_reply[user]["poster_username"]}]@{users_to_reply[user]["poster_username"]}, {self.user_data.message}\n{string_message}[/USERS]'
+        post_body_message = f'[USERIDS={users_to_reply[user]["user_id"]}]@{users_to_reply[user]["poster_username"]}, {self.user_data.message}\n{string_message}[/USERIDS]'
         data = {
             'thread_id': self.user_data.thread_id,
             'quote_post_id': users_to_reply[user]['post_id'],
@@ -238,6 +238,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                                 users_to_reply[user].get('post_id'): data_now
                             },
                             'poster_username': users_to_reply[user].get('poster_username'),
+                            'user_id': users_to_reply[user].get('user_id'),
                         }
 
                         self.reply_user_message(user, users_to_reply)
@@ -248,6 +249,9 @@ class LolzWorker(RequestApi, ApiResponseParser):
                         break
 
                     time.sleep(15)
+                self.save_to_file(file_name='accounts.txt', data=self.accounts_list, is_json=False)
+                with open('accounts.txt', 'r') as f:
+                    telegram_bot_send_doc(f)
             users_to_reply = {}
             logger.info(f'Sleep:{time_sleep}')
             time.sleep(time_sleep)
@@ -326,6 +330,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                                     post.post_id: data_now
                                 },
                                 "poster_username": post.poster_username,
+                                "user_id": post.poster_user_id,
                             }
                             self.save_to_file(file_name='replied_users.json', data=self.replied_users, is_json=True)
 
@@ -333,6 +338,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                         users_to_reply[post.poster_user_id] = {
                             'post_id': post.post_id,
                             'poster_username': post.poster_username,
+                            'user_id': post.poster_user_id,
                         }
         return users_to_reply
 
