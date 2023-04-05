@@ -22,7 +22,6 @@ from entities.user import User
 from entities.user_data import UserData
 from utils import telegram_bot_send_text, DATA_JSON, telegram_bot_send_doc
 
-
 config = {
     "handlers": [
         {"sink": sys.stderr, "level": logging.DEBUG, "backtrace": True},
@@ -31,14 +30,7 @@ config = {
     ],
 }
 
-
-def error_caught(message):
-    telegram_bot_send_text(json.loads(message).get('text'))
-    print(json.loads(message).get('text'))
-
-
 logger.configure(**config)
-logger.add(error_caught, format='{message}', serialize=True)
 
 
 class LolzWorker(RequestApi, ApiResponseParser):
@@ -166,7 +158,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
             return
 
         post_body_message = f'[USERIDS={user_id}]@{users_to_reply[user]["poster_username"]}, {self.user_data.message}\n{string_message}[/USERIDS]'
-        
+
         data = {
             'thread_id': self.user_data.thread_id,
             'quote_post_id': users_to_reply[user]['post_id'],
