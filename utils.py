@@ -78,3 +78,25 @@ def telegram_bot_send_text(bot_message, is_silent=False):
     except RequestException as e:
         logger.error(e)
         logger.error('Fail to send telegram message')
+
+
+def telegram_bot_send_doc(document, is_silent=False):
+    bot_token = DATA_JSON.get('telegram').get('bot_token')
+    bot_chat_id = DATA_JSON.get('telegram').get('telegram_id')
+
+    url = f'https://api.telegram.org/bot{bot_token}/sendDocument'
+    files = {"document": document}
+    data = {
+        'chat_id': bot_chat_id,
+        'title ': "document"
+    }
+
+    if is_silent:
+        data['disable_notification'] = 'true'
+
+    try:
+        response = requests.post(url, data=data, files=files)
+        logger.info(str(response.json()))
+    except RequestException as e:
+        logger.error(e)
+        logger.error('Fail to send telegram message')
