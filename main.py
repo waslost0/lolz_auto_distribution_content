@@ -20,7 +20,8 @@ from entities.links import Links
 from entities.post import Post
 from entities.user import User
 from entities.user_data import UserData
-from utils import telegram_bot_send_text, DATA_JSON,telegram_bot_send_doc
+from utils import telegram_bot_send_text, DATA_JSON, telegram_bot_send_doc
+
 
 config = {
     "handlers": [
@@ -30,7 +31,14 @@ config = {
     ],
 }
 
+
+def error_caught(message):
+    telegram_bot_send_text(json.loads(message).get('text'))
+    print(json.loads(message).get('text'))
+
+
 logger.configure(**config)
+logger.add(error_caught, format='{message}', serialize=True)
 
 
 class LolzWorker(RequestApi, ApiResponseParser):
@@ -151,7 +159,14 @@ class LolzWorker(RequestApi, ApiResponseParser):
             account = self.accounts_list.pop()
             accounts_send.append(account)
             string_message += account + '\n'
-        post_body_message = f'[USERIDS={users_to_reply[user]["user_id"]}]@{users_to_reply[user]["poster_username"]}, {self.user_data.message}\n{string_message}[/USERIDS]'
+
+        user_id = users_to_reply[user].get("user_id")
+        if not user_id:
+            [self.accounts_list.append(item) for item in accounts_send]
+            return
+
+        post_body_message = f'[USERIDS={user_id}]@{users_to_reply[user]["poster_username"]}, {self.user_data.message}\n{string_message}[/USERIDS]'
+        
         data = {
             'thread_id': self.user_data.thread_id,
             'quote_post_id': users_to_reply[user]['post_id'],
@@ -321,6 +336,7 @@ class LolzWorker(RequestApi, ApiResponseParser):
                         if user_likes and user_likes >= self.user_data.minimum_user_likes:
                             users_to_reply[post.poster_user_id] = {
                                 'post_id': post.post_id,
+                                'user_id': post.poster_user_id,
                                 'poster_username': post.poster_username,
                             }
                         elif user_likes:
