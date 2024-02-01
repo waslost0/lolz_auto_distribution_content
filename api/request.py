@@ -12,7 +12,7 @@ class RequestApi:
     def __init__(self, lolz_api_token: str, api_url: str = 'api_url'):
         assert lolz_api_token is None or lolz_api_token != '', 'Токен не может быть пустым'
 
-        self.ua = UserAgent(verify_ssl=False)
+        self.ua = UserAgent()
         self.session = requests.Session()
         self.session.headers['Authorization'] = f'Bearer {lolz_api_token}'
         self.api_url = api_url

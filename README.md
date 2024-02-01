@@ -78,7 +78,6 @@ pip instal -r requirements.txt
 | error_mode                     | информация об ошибках                                     | - |
 | items_count                    | количество строк что будет отправлено                     | - |
 | account_proxy                  | прокси для лолза вида user:pass@ip:port                   | - |
-| answer_as_comment              | отвечать как комментарий                                  | - |
 
 ---
 

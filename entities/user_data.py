@@ -79,7 +79,7 @@ class UserData:
     theme_url: str
     thread_id: int
     message: str
-    answer_as_comment: bool
+    message_to_check: str
     minimum_user_likes: int
     user_timeout_to_send_acc_in_minutes: int
     sleep_time: int
@@ -93,6 +93,7 @@ class UserData:
             items_count: Optional[int],
             theme_url: Optional[str],
             message: Optional[str],
+            message_to_check: Optional[str],
             minimum_user_likes: Optional[int],
             user_timeout_to_send_acc_in_minutes: Optional[int],
             sleep_time: Optional[int],
@@ -101,11 +102,11 @@ class UserData:
             telegram: Optional[TelegramData],
             proxy: Optional[ProxyData],
             thread_id: Optional[int],
-            answer_as_comment: Optional[bool],
     ) -> None:
         self.items_count = items_count
         self.theme_url = theme_url
         self.message = message
+        self.message_to_check = message_to_check
         self.minimum_user_likes = minimum_user_likes
         self.user_timeout_to_send_acc_in_minutes = user_timeout_to_send_acc_in_minutes
         self.sleep_time = sleep_time
@@ -114,20 +115,19 @@ class UserData:
         self.telegram = telegram
         self.proxy = proxy
         self.thread_id = thread_id
-        self.answer_as_comment = answer_as_comment
 
     @staticmethod
     def from_dict(obj: Any) -> 'UserData':
         items_count = from_int(obj.get("items_count"))
         theme_url = from_str(obj.get("theme_url"))
         message = from_str(obj.get("message"))
+        message_to_check = from_str(obj.get("message_to_check"))
         minimum_user_likes = from_int(obj.get("minimum_user_likes"))
         user_timeout_to_send_acc_in_minutes = from_int(obj.get("user_timeout_to_send_acc_in_minutes"))
         sleep_time = from_int(obj.get("sleep_time"))
         lolz_api_key = from_str(obj.get("lolz_api_key"))
         telegram = TelegramData.from_dict(obj.get("telegram"))
         proxy = ProxyData.from_dict(obj.get("proxy"))
-        answer_as_comment = from_str(obj.get("answer_as_comment"))
         lolz_api_url = from_str(obj.get("lolz_api_url"))
         thread_id = UserData.get_tread_id(theme_url)
 
@@ -135,6 +135,7 @@ class UserData:
             items_count=items_count,
             theme_url=theme_url,
             message=message,
+            message_to_check=message_to_check,
             minimum_user_likes=minimum_user_likes,
             user_timeout_to_send_acc_in_minutes=user_timeout_to_send_acc_in_minutes,
             sleep_time=sleep_time,
@@ -143,7 +144,6 @@ class UserData:
             proxy=proxy,
             lolz_api_url=lolz_api_url,
             thread_id=thread_id,
-            answer_as_comment=answer_as_comment,
         )
 
     def to_dict(self) -> dict:
@@ -151,6 +151,7 @@ class UserData:
         result["items_count"] = self.items_count
         result["theme_url"] = self.theme_url
         result["message"] = self.message
+        result["message_to_check"] = self.message_to_check
         result["lolz_api_url"] = self.lolz_api_url
         result["minimum_user_likes"] = self.minimum_user_likes
         result["user_timeout_to_send_acc_in_minutes"] = self.user_timeout_to_send_acc_in_minutes
@@ -158,7 +159,6 @@ class UserData:
         result["lolz_api_key"] = self.lolz_api_key
         result["telegram"] = self.telegram.to_dict()
         result["proxy"] = self.proxy.to_dict()
-        result["answer_as_comment"] = self.answer_as_comment
         return result
 
     @staticmethod

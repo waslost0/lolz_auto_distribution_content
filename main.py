@@ -165,17 +165,14 @@ class LolzWorker(RequestApi, ApiResponseParser):
             'post_body': post_body_message
         }
         try:
-            if self.user_data.answer_as_comment:
-                del data['post_body']
-                del data['quote_post_id']
-                del data['thread_id']
-                data['comment_body'] = post_body_message
-                response = self.send_post_request(
-                    path=f'posts/{users_to_reply[user]["post_id"]}/comments',
-                    params=data
-                )
-            else:
-                response = self.send_post_request(path=f'posts', params=data)
+            del data['post_body']
+            del data['quote_post_id']
+            del data['thread_id']
+            data['comment_body'] = post_body_message
+            response = self.send_post_request(
+                path=f'posts/{users_to_reply[user]["post_id"]}/comments',
+                params=data
+            )
 
             if not response.is_error() and self.is_telegram_info_mode:
                 telegram_bot_send_text(f'Отправил: {users_to_reply[user]["poster_username"]}')
@@ -320,11 +317,11 @@ class LolzWorker(RequestApi, ApiResponseParser):
                     if post.post_id in self.replied_users[post.poster_user_id].get('posts'):
                         continue
                 logger.info(f"POST poster_user_id ID {post.poster_user_id}")
-                if not post.post_is_first_post and int(post.poster_user_id) != int(self.user.user_id):
-                    # if not post.post_is_first_post:
+                if self.user_data.message_to_check and self.user_data.message_to_check not in post.post_body_plain_text:
+                    continue
+                elif not post.post_is_first_post and int(post.poster_user_id) != int(self.user.user_id):
                     if self.user_data.minimum_user_likes > 0:
                         user_likes = self.get_user_likes(post.poster_user_id)
-
                         if user_likes and user_likes >= self.user_data.minimum_user_likes:
                             users_to_reply[post.poster_user_id] = {
                                 'post_id': post.post_id,

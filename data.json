@@ -1,0 +1,22 @@
+{
+    "items_count": 1,
+    "theme_url": "https://zelenka.guru/threads/6349940",
+    "message": ":babyyoda:",
+    "message_to_check": "dance",
+    "lolz_api_url": "api.zelenka.guru",
+    "minimum_user_likes": 0,
+    "user_timeout_to_send_acc_in_minutes": 1,
+    "sleep_time": 350,
+    "lolz_api_key": "92e80849b6e774fb4ccd7f4acd81538308dc4681",
+    "telegram": {
+        "telegram_id": "250123658",
+        "bot_token": "5091798830:AAFVaImdSo-gHw7GGjp6sq2Q7RugnOJWYE0",
+        "info_mod": true
+    },
+    "proxy": {
+        "account_proxy": [
+            "nquqUp:bzjdrA@45.89.75.181:8000"
+        ],
+        "proxy_type": "http"
+    }
+}

@@ -16,11 +16,11 @@ def load_data_from_file() -> dict:
                     "items_count": 1,
                     "theme_url": "https://lolz.guru/threads/ID",
                     "message": ":cutedog:",
-                    "answer_as_comment": True,
                     "minimum_user_likes": 20,
                     "user_timeout_to_send_acc_in_minutes": 500,
                     "sleep_time": 50,
                     "lolz_api_key": "",
+                    "message_to_check": None,
                     "lolz_api_url": "api.lolz.guru",
                     "telegram": {
                         "telegram_id": "",
